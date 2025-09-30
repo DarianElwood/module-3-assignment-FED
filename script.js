@@ -1,22 +1,65 @@
 currentState = "A1"; // Starting node ID
 
+const generateRestartButton = () => {
+    // Restart button for end nodes.
+    const button = document.createElement("button");
+    button.innerText = "Restart";
+    button.onclick = () => {
+        currentState = "A1";
+        renderPage(currentState);
+    };
+    return button;
+};
+
 const generateButtons = (id) => {
+    /* Dynamically creates buttons based on the options
+    available in the current state node.
+    args: 
+        id: string - the id of the current state node
+    returns:
+        buttonArray: array - an array of button elements
+    */
+
+    // retrieves array of options from the current state node
     options = fetchNewState(id).options;
-    let newDiv = document.createElement("div");
+    let buttonArray = [];
     for (let i = 0; i < options.length; i++) {
+        // creates a button for each option, then pushes the button to an array
         let button = document.createElement("button")
+        button.innerText = i+1;
         button.id = options[i].target;
-        button.addEventListener("click", (event) => {
-            updateState(options[i].target)
-            //renderPage();
-        } );
-        newDiv.appendChild(button);
+        button.type = "button";
+        button.onclick = (event) => {
+            updateState(options[i].target);
+            renderPage(options[i].target);
+        }
+        buttonArray.push(button);
     }
+    if (options.length === 0) {
+        buttonArray.push(generateRestartButton());
+    }
+    return buttonArray;
 }
 
 const generateChoiceText = (id) => {
+    /* Generates the text to be displayed in the story
+    section based on the current state node.
+    args:
+        id: string - the id of the current state node
+    returns:
+        customText: p element - a paragraph element containing the story text
+    */
+
+    let textString = "";
+    let customText = null;
+    if (fetchNewState(id).options.length === 0) {
+        textString = fetchNewState(id).text + "\n\nGame over.";
+    }
+    else {
+        textString = fetchNewState(id).text + "\n\nYou have " + fetchNewState(id).options.length + " options:\n\n" + fetchNewState(id).options.map(option => option.text).join(", ");
+    }
     customText = document.createElement("p");
-    customText.innerText = fetchNewState(id).text;
+    customText.innerText = textString;
     return customText;
 }
 
@@ -38,6 +81,13 @@ const updateState = (id) => {
 }
 
 const fetchNewState = (id) => {
+    /* Fetches the state node object based on the passed id.
+    args:
+        id: string - the id of the state node to fetch
+    returns:
+        newState: object - the state node object
+    */
+
     try {
         const newState = adventureNodes.find(n => n.id === id);
         return newState;
@@ -48,18 +98,37 @@ const fetchNewState = (id) => {
 }
 
 const renderPage = (id) => {
+    /* Renders the page based on the current state.
+    args:
+        id: string - the id of the current state node
+    */
+
     const storyNode = document.getElementById("story");
+    const choicesNode = document.getElementById("choices");
+    // Clear existing content
     while (storyNode.firstChild){
         storyNode.removeChild(storyNode.firstChild);
     }
+    while (choicesNode.firstChild){
+        choicesNode.removeChild(choicesNode.firstChild);
+    }
+    // Appends generated content to storyNode node
     storyNode.appendChild(generateChoiceText(id));
+    let buttons = generateButtons(id);
+    console.log(buttons);
+    buttons.forEach(button => choicesNode.appendChild(button));
 
 }
+// renders the initial page.
+document.addEventListener("DOMContentLoaded", () => {
+    renderPage(currentState);
+});
 
+// Defines all of the nodes in the adventure game, used for traversing throughout the game.
 const adventureNodes = [
   {
     id: "A1",
-    text: "You are the advisor for Echo Squad, deployed in a contested area with rebel activity. Do you fortify a secure position or move to a new location to avoid detection?",
+    text: "You are the advisor for Echo Squad, a unit deployed in a contested area with rebel activity. Do you fortify a secure position or move to a new location to avoid detection?",
     options: [
       { text: "Fortify Position", target: "B1" },
       { text: "Move to New Location", target: "C1" },
