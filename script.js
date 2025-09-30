@@ -1,4 +1,15 @@
-currentState = "A1"; // Starting node ID
+let currentState = "A1"; // Starting node ID
+
+// Cache DOM elements
+let storyNode, choicesNode;
+
+const validateStateId = (id) => {
+    const node = adventureNodes.find(n => n.id === id);
+    if (!node) {
+        throw new Error(`Invalid state id: ${id}`);
+    }
+    return true;
+};
 
 const generateRestartButton = () => {
     // Restart button for end nodes.
@@ -21,13 +32,8 @@ const generateButtons = (id) => {
     */
 
     // retrieves array of options from the current state node
-    try {
-        adventureNodes.find(n => n.id === id);
-    }
-    catch {
-        throw new Error("Invalid state id.");
-    }
-    options = fetchNewState(id).options;
+    validateStateId(id);
+    const options = fetchNewState(id).options;
     let buttonArray = [];
     for (let i = 0; i < options.length; i++) {
         // creates a button for each option, then pushes the button to an array
@@ -56,12 +62,7 @@ const generateChoiceText = (id) => {
     returns:
         customText: p element - a paragraph element containing the story text
     */
-    try {
-        adventureNodes.find(n => n.id === id);
-    }
-    catch {
-        throw new Error("Invalid state id.");
-    }
+    validateStateId(id);
 
     let textString = "";
     let customText = null;
@@ -84,12 +85,7 @@ const updateState = (id) => {
     If an invalid state is given it will log it to the
     console and not update the state.
      */
-    try {
-        adventureNodes.find(n => n.id === id);
-    }
-    catch {
-        throw new Error("Invalid state id.");
-    }
+    validateStateId(id);
     currentState = id;
 }
 
@@ -101,13 +97,9 @@ const fetchNewState = (id) => {
         newState: object - the state node object
     */
 
-    try {
-        const newState = adventureNodes.find(n => n.id === id);
-        return newState;
-    }
-    catch {
-        throw new Error("Invalid state id.");
-    }
+    validateStateId(id);
+    const newState = adventureNodes.find(n => n.id === id);
+    return newState;
 }
 
 const renderPage = (id) => {
@@ -115,12 +107,7 @@ const renderPage = (id) => {
     args:
         id: string - the id of the current state node
     */
-    try {
-        adventureNodes.find(n => n.id === id);
-    }
-    catch {
-        throw new Error("Invalid state id.");
-    }
+    validateStateId(id);
     
     const storyNode = document.getElementById("story");
     const choicesNode = document.getElementById("choices");
