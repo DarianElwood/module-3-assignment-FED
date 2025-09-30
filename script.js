@@ -29,6 +29,7 @@ const generateButtons = (id) => {
         button.innerText = i+1;
         button.id = options[i].target;
         button.type = "button";
+        // button handler to update the state and re-render the page
         button.onclick = (event) => {
             updateState(options[i].target);
             renderPage(options[i].target);
@@ -102,7 +103,6 @@ const renderPage = (id) => {
     args:
         id: string - the id of the current state node
     */
-
     const storyNode = document.getElementById("story");
     const choicesNode = document.getElementById("choices");
     // Clear existing content
