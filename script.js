@@ -21,6 +21,12 @@ const generateButtons = (id) => {
     */
 
     // retrieves array of options from the current state node
+    try {
+        adventureNodes.find(n => n.id === id);
+    }
+    catch {
+        throw new Error("Invalid state id.");
+    }
     options = fetchNewState(id).options;
     let buttonArray = [];
     for (let i = 0; i < options.length; i++) {
