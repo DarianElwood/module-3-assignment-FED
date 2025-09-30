@@ -133,7 +133,7 @@ document.addEventListener("DOMContentLoaded", () => {
 const adventureNodes = [
   {
     id: "A1",
-    text: "You are the advisor for Echo Squad, a unit deployed in a contested area with rebel activity. Do you fortify a secure position or move to a new location to avoid detection?",
+    text: "You are the commander of Echo Squad, a unit deployed in a contested area with possible rebel activity. Do you fortify a secure position or move to a new location to avoid detection?",
     options: [
       { text: "Fortify Position", target: "B1" },
       { text: "Move to New Location", target: "C1" },
