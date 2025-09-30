@@ -34,25 +34,25 @@ const generateButtons = (id) => {
     // retrieves array of options from the current state node
     validateStateId(id);
     const options = fetchNewState(id).options;
-    let buttonArray = [];
+    const buttonArray = [];
     for (let i = 0; i < options.length; i++) {
         // creates a button for each option, then pushes the button to an array
-        let button = document.createElement("button")
-        button.innerText = i+1;
+        const button = document.createElement("button");
+        button.innerText = i + 1;
         button.id = options[i].target;
         button.type = "button";
         // button handler to update the state and re-render the page
-        button.onclick = (event) => {
+        button.onclick = () => {
             updateState(options[i].target);
             renderPage(options[i].target);
-        }
+        };
         buttonArray.push(button);
     }
     if (options.length === 0) {
         buttonArray.push(generateRestartButton());
     }
     return buttonArray;
-}
+};
 
 const generateChoiceText = (id) => {
     /* Generates the text to be displayed in the story
@@ -65,17 +65,16 @@ const generateChoiceText = (id) => {
     validateStateId(id);
 
     let textString = "";
-    let customText = null;
     if (fetchNewState(id).options.length === 0) {
         textString = fetchNewState(id).text + "\n\nGame over.";
     }
     else {
         textString = fetchNewState(id).text + "\n\nYou have " + fetchNewState(id).options.length + " options:\n\n" + fetchNewState(id).options.map(option => option.text).join(", ");
     }
-    customText = document.createElement("p");
+    const customText = document.createElement("p");
     customText.innerText = textString;
     return customText;
-}
+};
 
 const updateState = (id) => {
     /* Checks that a valid state has been passed, 
@@ -87,7 +86,7 @@ const updateState = (id) => {
      */
     validateStateId(id);
     currentState = id;
-}
+};
 
 const fetchNewState = (id) => {
     /* Fetches the state node object based on the passed id.
@@ -100,7 +99,7 @@ const fetchNewState = (id) => {
     validateStateId(id);
     const newState = adventureNodes.find(n => n.id === id);
     return newState;
-}
+};
 
 const renderPage = (id) => {
     /* Renders the page based on the current state.
@@ -112,16 +111,12 @@ const renderPage = (id) => {
     const storyNode = document.getElementById("story");
     const choicesNode = document.getElementById("choices");
     // Clear existing content
-    while (storyNode.firstChild){
-        storyNode.removeChild(storyNode.firstChild);
-    }
-    while (choicesNode.firstChild){
-        choicesNode.removeChild(choicesNode.firstChild);
-    }
+    storyNode.innerHTML = '';
+    choicesNode.innerHTML = '';
+    
     // Appends generated content to storyNode node
     storyNode.appendChild(generateChoiceText(id));
-    let buttons = generateButtons(id);
-    console.log(buttons);
+    const buttons = generateButtons(id);
     buttons.forEach(button => choicesNode.appendChild(button));
 
 }
