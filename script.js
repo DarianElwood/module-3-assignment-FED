@@ -4,6 +4,10 @@ let currentState = "A1"; // Starting node ID
 let storyNode, choicesNode;
 
 const validateStateId = (id) => {
+    /* Validates that the passed id corresponds to a valid state node. 
+    args:
+        id: string - the id of the state node to validate
+    */
     const node = adventureNodes.find(n => n.id === id);
     if (!node) {
         throw new Error(`Invalid state id: ${id}`);
