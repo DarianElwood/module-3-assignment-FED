@@ -62,7 +62,7 @@ const generateChoiceText = (id) => {
     catch {
         throw new Error("Invalid state id.");
     }
-    
+
     let textString = "";
     let customText = null;
     if (fetchNewState(id).options.length === 0) {
@@ -106,7 +106,7 @@ const fetchNewState = (id) => {
         return newState;
     }
     catch {
-        console.log(Error);
+        throw new Error("Invalid state id.");
     }
 }
 
