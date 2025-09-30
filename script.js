@@ -115,6 +115,13 @@ const renderPage = (id) => {
     args:
         id: string - the id of the current state node
     */
+    try {
+        adventureNodes.find(n => n.id === id);
+    }
+    catch {
+        throw new Error("Invalid state id.");
+    }
+    
     const storyNode = document.getElementById("story");
     const choicesNode = document.getElementById("choices");
     // Clear existing content
