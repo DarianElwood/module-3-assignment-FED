@@ -1,16 +1,30 @@
-.flexbox-inline {
-    display: inline-flex;
+body {
+    font-family: Roboto, Arial, sans-serif;
+}
+
+#choices {
+    display: flex;
+    justify-content: center;
     gap: 10px;
-    align-items: center;
+    margin-top: 20px;
 }
 
 button {
-    background-color: khaki;
-    outline: solid 1px black;
-    color: black;
+    background-color: grey;
+    outline: solid 0.5px black;
+    color: white;
+    height: 4em;
+    width: 4em;
 }
 
 main {
     text-align: center;
+    margin-top: 20px;
+}
+
+header {
+    text-align: center;
+    font-size: 1em;
+    font-weight: bold;
     margin-top: 20px;
 }
