@@ -56,7 +56,13 @@ const generateChoiceText = (id) => {
     returns:
         customText: p element - a paragraph element containing the story text
     */
-
+    try {
+        adventureNodes.find(n => n.id === id);
+    }
+    catch {
+        throw new Error("Invalid state id.");
+    }
+    
     let textString = "";
     let customText = null;
     if (fetchNewState(id).options.length === 0) {
