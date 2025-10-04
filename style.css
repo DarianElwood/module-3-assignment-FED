@@ -1,5 +1,6 @@
 body {
     font-family: Roboto, Arial, sans-serif;
+    background-color: #f0f0f0;
 }
 
 #choices {
@@ -26,5 +27,15 @@ header {
     text-align: center;
     font-size: 1em;
     font-weight: bold;
-    margin-top: 20px;
+    margin-top: 10px;
+}
+
+.main-content {
+    background-color: white;
+    margin: 3em;
+    margin-left: 5em;
+    margin-right: 5em;
+    padding: 3em;
+    display: flex;
+    flex-direction: column;
 }
